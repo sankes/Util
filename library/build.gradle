@@ -23,12 +23,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // 声明编译的java版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    // 忽略lint错误
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation dependency.appcompat_v7
+    compile dependency.support_v4
+    compile dependency.appcompat_v7
     testImplementation dependency.junit
     androidTestImplementation dependency.test_runner
     androidTestCompile(dependency.espresso_core, {
@@ -40,3 +51,8 @@ dependencies {
     compile dependency.jackson_annotations
     compile dependency.jackson_databind
 }
+
+// 上传插件到jcenter
+apply from: '../bintray.gradle'
+// 上传插件到本地
+apply from: '../local.gradle'
