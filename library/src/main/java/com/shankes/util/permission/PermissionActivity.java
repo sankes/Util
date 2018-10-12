@@ -30,7 +30,7 @@ public class PermissionActivity extends Activity {
             finish();
         }
     };
-    
+
     @Override
     protected void onStart() {
         super.onStart();
