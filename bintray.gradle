@@ -1,0 +1,80 @@
+// 上传插件到jcenter，在插件模块的build文件中引入即可
+apply plugin: 'maven-publish'
+
+//源代码打包任务
+task sourcesJar(type: Jar) {
+//    baseName 'test'
+    classifier 'sources'//分类器,区分其他jar包
+    from sourceSets.main.allSource
+}
+
+//文档包任务
+task docJar(type: Jar, dependsOn: [javadoc, groovydoc]) {
+//    baseName 'test'
+    classifier 'doc'//分类器,区分其他jar包
+    from javadoc.destinationDir, groovydoc.destinationDir
+}
+
+//配置工程工件,也就是jar产出的配置
+artifacts {
+    archives sourcesJar
+    archives docJar
+}
+
+group = 'com.shankes.gradle.plugin' // 组名
+version = '1.0.0' // 版本
+
+//上传配置
+publishing {
+    publications {
+        plugin(MavenPublication) {
+            from components.java
+            //如果不指定，默认就是工程名
+            artifactId 'configPlugin'
+
+            artifact sourcesJar
+            artifact docJar
+
+            //pom文件配置
+            pom.withXml {
+                def root = asNode()
+                def licensesNode = root.appendNode('licenses').appendNode('license')
+                licensesNode.appendNode('name', 'Apache License, Version 2.0')
+                licensesNode.appendNode('url', 'https://www.apache.org/licenses/LICENSE-2.0.txt')
+                licensesNode.appendNode('distribution', 'repo')
+                licensesNode.appendNode('comments', 'A business-friendly OSS license')
+            }
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/sankes/Groovy'   // project homepage
+def issueUrl = 'https://github.com/sankes/Groovy/issues'
+def gitUrl = 'https://github.com/sankes/Groovy.git'
+
+// 简化引入包名，定义为properties
+Properties properties = rootProject.ext.properties
+
+bintray {
+    // 本地文件中获取上传到JCenter所需信息
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    //上传的内容
+    publications = ['plugin']
+    pkg {
+        repo = 'maven'//需要上传的仓库名
+        name = 'configPlugin'//上传到jcenter的项目名
+        desc = 'gradle plugin' // 项目描述
+        //userOrg = 'bintray_user'//可选的,不传的话默认是上面的user
+        websiteUrl = siteUrl
+        issueTrackerUrl = issueUrl
+        //这里的地址是不会验证的,随便输入都可以,不配置也可以
+        vcsUrl = gitUrl
+        labels = ['gradle', 'plugin']
+        licenses = ['Apache-2.0']//开源许可
+        publish = true
+    }
+    override = true
+}

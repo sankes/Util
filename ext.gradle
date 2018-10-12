@@ -1,7 +1,15 @@
 import groovy.json.JsonSlurper
 
-ext {
 //这里的ext是必须的
+ext {
+    // 本地文件local.properties中获取私密信息
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    // 本地文件config/setting.json中获取不同风味下不同app的配置信息
+    def inputFile = new File("${getProject().getRootDir().path}" + File.separator + "config" + File.separator + "setting.json")
+    // app配置信息  直接获取
+    appConfig = new JsonSlurper().parseText(inputFile.text)
 
     dexConf = [
             dexInProcess   : true,
@@ -15,26 +23,17 @@ ext {
 //    mapType = "amap"// 高德地图
 
     dependVersion = [
-            support: "26.1.0"
+            support: "26.0.2"
     ]
 
     android = [
             compileSdkVersion   : 26,
-            buildToolsVersion   : '26.1.0',
-            applicationId       : 'com.shankes.arch',
+            buildToolsVersion   : '26.0.2',
             minSdkVersion       : 17,
             targetSdkVersion    : 26,
             defaultPublishConfig: 'release',
             publishNonDefault   : true
     ]
-
-    def inputFile = new File("${getProject().getRootDir().path}" + File.separator + "config" + File.separator + "setting.json")
-    // app配置信息  直接获取
-    appConfig = new JsonSlurper().parseText(inputFile.text)
-
-    // app配置信息  通过自定义类获取    暂时未用
-//    task configJson(type: com.shankes.util.json.JSONUtils)
-//    appConfigTest = configJson.parseFile(inputFile)
 
     dependencies = [
             // 基础支持
@@ -46,8 +45,8 @@ ext {
 
             // Test
             junit                             : 'junit:junit:4.12',
-            test_runner                       : 'com.android.support.test:runner:1.0.1',
-            espresso_core                     : 'com.android.support.test.espresso:espresso-core:3.0.1',
+            test_runner                       : 'com.android.support.test:runner:1.0.2',
+            espresso_core                     : 'com.android.support.test.espresso:espresso-core:3.0.2',
 
             // Tinker is a hot-fix solution library for Android, it supports dex, library and resources update without reinstalling apk.
             // optional, help to generate the final application
