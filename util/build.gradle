@@ -24,22 +24,22 @@ android {
         }
     }
 
-//    // 声明编译的java版本
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_7
-//        targetCompatibility JavaVersion.VERSION_1_7
-//    }
-//    // 忽略lint错误
-//    lintOptions {
-//        abortOnError false
-//    }
+    // 声明编译的java版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    // 忽略lint错误
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation dependency.support_v4
-    compile dependency.appcompat_v7
+    implementation dependency.appcompat_v7
     testImplementation dependency.junit
     androidTestImplementation dependency.test_runner
     androidTestCompile(dependency.espresso_core, {
@@ -47,9 +47,9 @@ dependencies {
     })
 
     // json解析库
-    compile dependency.jackson_core
-    compile dependency.jackson_annotations
-    compile dependency.jackson_databind
+    implementation dependency.jackson_core
+    implementation dependency.jackson_annotations
+    implementation dependency.jackson_databind
 }
 
 // 上传插件到jcenter
