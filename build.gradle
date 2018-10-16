@@ -15,10 +15,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         // bintray 将项目发布到JCenter所需要的依赖
-//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
-//        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        // classpath 'com.novoda:bintray-release:<latest-version>'
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         // Gradle config plugin by shankes
         classpath 'com.shankes.gradle.plugin:configPlugin:1.0.0'
         // NOTE: Do not place your application dependencies here; they belong

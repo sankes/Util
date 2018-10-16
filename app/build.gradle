@@ -100,5 +100,5 @@ dependencies {
     androidTestCompile(dependency.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':library')
+    compile project(':util')
 }
